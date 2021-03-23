@@ -7,8 +7,8 @@
 
 int SENSOR_T = 3;
 
-float temperaturaCLida;
-float temperaturaCAnterior;
+float ReadCTemperature;
+float PastCTemperature;
 
 void setup() {
   Serial.begin(9600);
@@ -17,15 +17,26 @@ void setup() {
 }
 
 void loop() {
+  
+  /*****************************/
+  /*     USING THE DS18B20     */
+  /*****************************/
 //  sensor.requestTemperatures();
-//  temperaturaCLida = sensor.getTempC(addr);
-  temperaturaCLida = (map(analogRead(SENSOR_T),0, 1023, 0, 500))/10;
+//  ReadCTemperature = sensor.getTempC(addr);
+
+  /*****************************/
+  /*SIMULANDO COM POTENCIÔMETRO*/
+  /*****************************/
+  ReadCTemperature = (map(analogRead(SENSOR_T),0, 1023, 0, 500))/10;
   
-  if(temperaturaCLida!=temperaturaCAnterior){
-    Serial.print("Temperatura: ");
-    Serial.println(temperaturaCLida);
+  /*****************************/
+  /*PRINTING THE DIFFERENT TEMP*/
+  /*****************************/
+  if(ReadCTemperature != PastCTemperature){
+    Serial.print("Temperature: ");
+    Serial.println(ReadCTemperature);
+    //REFRESHING THE TEMPERATURE
+    PastCTemperature = ReadCTemperature;
   }
-  temperaturaCAnterior = temperaturaCLida;
-  
   delay(100);
 }
