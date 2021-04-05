@@ -32,7 +32,7 @@ Dialog::~Dialog()
     delete ui;
 }
 
-void Dialog::refreshConnection(QDialog *Di)
+void Dialog::refreshConnection(Dialog *Di)
 {
     serialBuffer = "";
 

@@ -18,7 +18,7 @@ public:
     ~Dialog();
 
 private slots:
-    void refreshConnection(QDialog *Di);
+    void refreshConnection(Dialog *Di);
     void readSerial();
     void updateLCD(const QString);
     void updateTemperatureMessage();
