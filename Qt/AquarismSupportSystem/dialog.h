@@ -30,6 +30,17 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_Set_Clean_Period_clicked();
+
+    void on_Set_Feed_Period_clicked();
+
+    void on_pushButton_Clean_clicked();
+
+    void on_pushButton_Feed_clicked();
+
+    void refresh_next_feed_time();
+    void refresh_next_clean_time();
+
 private:
     Ui::Dialog *ui;
 

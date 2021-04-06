@@ -16,9 +16,9 @@ char daysOfTheWeek[7][12] = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta",
 
 int hora = 0;
 int minu = 0;
-int dia = 1;
-int mes = 1;
-int ano = 0;
+int dia = 6;
+int mes = 4;
+int ano = 2021;
 
 void setup() {
   Serial.begin(9600);

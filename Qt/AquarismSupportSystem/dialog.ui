@@ -399,7 +399,7 @@
    <property name="title">
     <string>Date and Time</string>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -520,7 +520,7 @@
    <property name="title">
     <string>Cleaning Period Configuration</string>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -615,7 +615,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="Set_Clean_Period">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -642,7 +642,7 @@
    <property name="title">
     <string>Feeding Period Configuration</string>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -741,7 +741,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="Set_Feed_Period">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -768,7 +768,7 @@
    <property name="title">
     <string>Last Cleaning and Feeding</string>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -825,7 +825,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="Date_Value_3">
+        <widget class="QLabel" name="Last_Feed_Value">
          <property name="enabled">
           <bool>true</bool>
          </property>
@@ -860,7 +860,7 @@
    <property name="title">
     <string>Clean and Feed</string>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -899,7 +899,7 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="Next_Feed_Value">
+              <widget class="QLabel" name="Next_Clean_Value">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -971,7 +971,7 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="Next_Feed_Value_2">
+              <widget class="QLabel" name="Next_Feed_Value">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -1035,7 +1035,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="Next_Clean_Name_3">
+        <widget class="QLabel" name="Feed_Message">
          <property name="text">
           <string>Fish Fed</string>
          </property>

@@ -5,6 +5,7 @@
 #include <string>
 #include <QDebug>
 #include <QMessageBox>
+#include <QDateTime>
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
@@ -201,10 +202,73 @@ void Dialog::on_Set_Clean_Period_clicked()
 {
     clean_days  = ui->Days_Clean_Value->value();
     clean_hours = ui->Hours_Clean_Value->value();
+    //atualizar o horário da próxima vez que deve ser limpo
+    refresh_next_clean_time();
 }
 
 void Dialog::on_Set_Feed_Period_clicked()
 {
     feed_days  = ui->Days_Feed_Value->value();
     feed_hours = ui->Hours_Feed_Value->value();
+    //atualizar o horário da proxima vez que deve alimentar
+    refresh_next_feed_time();
+}
+
+void Dialog::on_pushButton_Clean_clicked()
+{
+    //atualizar a data e hora da última vez em que o aquário foi limpo
+    ui->Last_Clean_Value->setText(ui->Date_Value->text() + " " + ui->Time_Value->text());
+    //atualizar a próxima data e hora que o aquário deve ser limpo
+    refresh_next_clean_time();
+    //atualizar mensagem do aquário para limpo
+    ui->Clean_Message->setText("Cleaned Aquarium");
+}
+
+void Dialog::on_pushButton_Feed_clicked()
+{
+    //atualizar a data e hora da última vez em que os peixes foram alimentados
+    ui->Last_Feed_Value->setText(ui->Date_Value->text() + " " + ui->Time_Value->text());
+    //atualizar a próxima data e hora em que os peixes devem ser alimentados
+    refresh_next_feed_time();
+    //atualizar mensagem dos peixes alimentados
+    ui->Feed_Message->setText("Fish Fed");
+}
+
+void Dialog::refresh_next_feed_time()
+{
+    QString l_value = ui->Last_Feed_Value->text();
+    int l_day = l_value.split(" ")[0].split("/")[0].toInt();
+    int l_mon = l_value.split(" ")[0].split("/")[1].toInt();
+    int l_yea = l_value.split(" ")[0].split("/")[2].toInt();
+    int l_h = l_value.split(" ")[1].split(":")[0].toInt();
+    int l_m = l_value.split(" ")[1].split(":")[1].toInt();
+    QDateTime n_date = QDateTime(QDate(l_yea,l_mon,l_day),QTime(l_h,l_m));
+    n_date = n_date.addDays(feed_days).addSecs(60*60*(feed_hours));
+    QString day = QStringLiteral("%1").arg( n_date.date().day() , 2, 10, QLatin1Char('0'));
+    QString mon = QStringLiteral("%1").arg( n_date.date().month() , 2, 10, QLatin1Char('0'));
+    QString yea = QStringLiteral("%1").arg( n_date.date().year() , 4, 10, QLatin1Char('0'));
+    QString h = QStringLiteral("%1").arg( n_date.time().hour() , 2, 10, QLatin1Char('0'));
+    QString m = QStringLiteral("%1").arg( n_date.time().minute() , 2, 10, QLatin1Char('0'));
+    QString date = day+"/"+mon+"/"+yea+" "+h+":"+m;
+    ui->Next_Feed_Value->setText(date);
+}
+
+void Dialog::refresh_next_clean_time()
+{
+    QString l_value = ui->Last_Clean_Value->text();
+    int l_day = l_value.split(" ")[0].split("/")[0].toInt();
+    int l_mon = l_value.split(" ")[0].split("/")[1].toInt();
+    int l_yea = l_value.split(" ")[0].split("/")[2].toInt();
+    qDebug() << l_yea;
+    int l_h = l_value.split(" ")[1].split(":")[0].toInt();
+    int l_m = l_value.split(" ")[1].split(":")[1].toInt();
+    QDateTime n_date = QDateTime(QDate(l_yea,l_mon,l_day),QTime(l_h,l_m));
+    n_date = n_date.addDays(clean_days).addSecs(60*60*(clean_hours));
+    QString day = QStringLiteral("%1").arg( n_date.date().day() , 2, 10, QLatin1Char('0'));
+    QString mon = QStringLiteral("%1").arg( n_date.date().month() , 2, 10, QLatin1Char('0'));
+    QString yea = QStringLiteral("%1").arg( n_date.date().year() , 4, 10, QLatin1Char('0'));
+    QString h = QStringLiteral("%1").arg( n_date.time().hour() , 2, 10, QLatin1Char('0'));
+    QString m = QStringLiteral("%1").arg( n_date.time().minute() , 2, 10, QLatin1Char('0'));
+    QString date = day+"/"+mon+"/"+yea+" "+h+":"+m;
+    ui->Next_Clean_Value->setText(date);
 }
