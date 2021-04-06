@@ -18,15 +18,17 @@ public:
     ~Dialog();
 
 private slots:
-    void refreshConnection(Dialog *Di);
+    void refreshConnection();
     void readSerial();
     void updateLCD(const QString);
     void updateTemperatureMessage();
 
     void on_EditTemperature_clicked();
     void update_temperature_values(QString,QString);
+    void update_date_values(QString, QString, QString);
+    void update_time_values(QString, QString);
 
-    void on_pushButton_clicked(QDialog *Di);
+    void on_pushButton_clicked();
 
 private:
     Ui::Dialog *ui;
@@ -37,6 +39,11 @@ private:
 
     QByteArray serialData;
     QString serialBuffer;
+
+    int clean_days;
+    int clean_hours;
+    int feed_days;
+    int feed_hours;
 };
 
 #endif // DIALOG_H

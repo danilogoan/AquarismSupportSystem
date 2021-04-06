@@ -18,11 +18,18 @@ Dialog::Dialog(QWidget *parent) :
     QFont formation("Arial",18);
     ui->Max_Temp_Def->setFont(formation);
     ui->Min_Temp_Def->setFont(formation);
+    ui->Date_Value->setFont(formation);
+    ui->Time_Value->setFont(formation);
     ui->Max_Temp_Def->setText("30");
     ui->Min_Temp_Def->setText("27");
     updateTemperatureMessage();
 
-    refreshConnection(this);
+    clean_days  = 30;
+    clean_hours = 0;
+    feed_days   = 1;
+    feed_hours  = 0;
+
+    refreshConnection();
 }
 
 
@@ -32,7 +39,7 @@ Dialog::~Dialog()
     delete ui;
 }
 
-void Dialog::refreshConnection(Dialog *Di)
+void Dialog::refreshConnection()
 {
     serialBuffer = "";
 
@@ -67,7 +74,7 @@ void Dialog::refreshConnection(Dialog *Di)
         arduino->setFlowControl(QSerialPort::NoFlowControl);
         arduino->setParity(QSerialPort::NoParity);
         arduino->setStopBits(QSerialPort::OneStop);
-        QObject::connect(arduino, SIGNAL(readyRead()), Di, SLOT(readSerial()));
+        QObject::connect(arduino, SIGNAL(readyRead()), this, SLOT(readSerial()));
     }else{
         qDebug() << "Couldn't find the correct port for arduino.\n";
         QMessageBox::information(this,"Serial Port Error", "Couldn't open serial port to Arduino Uno.");
@@ -77,17 +84,41 @@ void Dialog::refreshConnection(Dialog *Di)
 void Dialog::readSerial()
 {
     qDebug() << "Serialport works\n";
+
+   // serialData.clear();
+   // arduino->clear();
+
     serialData = arduino->readAll();
     serialBuffer = QString::fromStdString( serialData.toStdString() );
     qDebug() << serialBuffer;
 
-    QStringList bufferSplit = serialBuffer.split(": ");
-    if(bufferSplit[0] == "Temperatura"){
-        QString value = bufferSplit[1].split("\r\n")[0];
-        qDebug() << value;
-        updateLCD(value);
+    QStringList bufferSplit = serialBuffer.split("|");
+
+    if(bufferSplit[0].split(":")[0] == "T"){
+        QString temperature = bufferSplit[0].split(":")[1];
+        qDebug() << temperature;
+        updateLCD(temperature);
     }else{
-        updateLCD("-------");
+        //get Date
+        QString date = bufferSplit[0].split(":")[1];
+        QString week = bufferSplit[1].split(":")[1];
+        QString hour = bufferSplit[2].split(":")[1].split("\r\n")[0];
+
+        QString day = QStringLiteral("%1").arg( date.split("/")[0].toInt() , 2, 10, QLatin1Char('0'));
+        QString mon = QStringLiteral("%1").arg( date.split("/")[1].toInt() , 2, 10, QLatin1Char('0'));
+        QString year = QStringLiteral("%1").arg( date.split("/")[2].toInt() , 4, 10, QLatin1Char('0'));
+
+        QString h = QStringLiteral("%1").arg( hour.split("/")[0].toInt() , 2, 10, QLatin1Char('0'));
+        QString m = QStringLiteral("%1").arg( hour.split("/")[1].toInt() , 2, 10, QLatin1Char('0'));
+
+        update_date_values(day,mon,year);
+        update_time_values(h,m);
+        ui->WeekDay->setText(week);
+
+        qDebug() << date;
+        qDebug() << week;
+        qDebug() << hour;
+        serialData.clear();
     }
 }
 
@@ -148,7 +179,32 @@ void Dialog::update_temperature_values(QString max, QString min)
     updateTemperatureMessage();
 }
 
-void Dialog::on_pushButton_clicked(QDialog *Di)
+void Dialog::update_date_values(QString day, QString mon, QString yea)
 {
-    refreshConnection(Di);
+    QString value = day + "/" + mon + "/" + yea;
+    ui->Date_Value->setText(value);
+}
+
+void Dialog::update_time_values(QString hour, QString min)
+{
+    QString value = hour + ":" + min;
+    ui->Time_Value->setText(value);
+}
+
+void Dialog::on_pushButton_clicked( )
+{
+    refreshConnection();
+}
+
+
+void Dialog::on_Set_Clean_Period_clicked()
+{
+    clean_days  = ui->Days_Clean_Value->value();
+    clean_hours = ui->Hours_Clean_Value->value();
+}
+
+void Dialog::on_Set_Feed_Period_clicked()
+{
+    feed_days  = ui->Days_Feed_Value->value();
+    feed_hours = ui->Hours_Feed_Value->value();
 }
