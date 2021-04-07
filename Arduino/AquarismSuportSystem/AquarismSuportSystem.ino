@@ -1,13 +1,15 @@
 #include <RTClib.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include "TimerOne.h"
 
 //OneWire onewire(3);
 //DallasTemperature sensor(&onewire);
 //DeviceAddress addr;
 
 int SENSOR_T = 3;
-
+const int buzz = 10; // Pino do Buzzer, pode ser alterado
+int lembrete_alimentacao=1; // 1 para lembrete ativado, 0 para lembrete desativado
 float ReadCTemperature;
 float PastCTemperature;
 
@@ -19,9 +21,13 @@ int minu = 0;
 int dia = 6;
 int mes = 4;
 int ano = 2021;
-
+void interrupcao_botao_alimentacao();
 void setup() {
   Serial.begin(9600);
+  pinMode(buzz,OUTPUT);
+  Timer1.initialize(1000000); // Inicializa o Timer1 e configura para um período de 1 segundo
+  Timer1.attachInterrupt(clock_interrupt);
+  attachInterrupt(0,interrupcao_botao_alimentacao,RISING); //Configurando a interrupção do botão no pino 2
 //  sensor.begin();
 //  sensor.getAddress(addr, 0);
 
@@ -104,4 +110,19 @@ void loop() {
     Serial.print(minu);
   }
   delay(2000);
+}
+void clock_interrupt()
+{
+if(hora==18 & minu==0 & lembrete_alimentacao==1){
+  tone(buzz,1500);   
+}else if (lembrete_alimentacao==0){
+  noTone(buzz);
+}
+if(hora==23 & minu==59)
+lembrete_alimentacao=1;
+}
+void interrupcao_botao_alimentacao(){
+if(lembrete_alimentacao==1){
+ lembrete_alimentacao=0; 
+}
 }
