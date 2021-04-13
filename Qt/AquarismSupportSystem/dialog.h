@@ -57,6 +57,8 @@ private:
     int clean_hours;
     int feed_days;
     int feed_hours;
+
+    bool arduino_connected;
 };
 
 #endif // DIALOG_H

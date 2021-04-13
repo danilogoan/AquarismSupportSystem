@@ -687,7 +687,7 @@
            <item>
             <widget class="QSpinBox" name="Days_Feed_Value">
              <property name="value">
-              <number>1</number>
+              <number>0</number>
              </property>
             </widget>
            </item>
@@ -718,7 +718,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="Hours_Feed_Value"/>
+            <widget class="QSpinBox" name="Hours_Feed_Value">
+             <property name="value">
+              <number>8</number>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>

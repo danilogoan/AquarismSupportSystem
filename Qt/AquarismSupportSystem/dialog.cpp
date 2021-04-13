@@ -30,6 +30,8 @@ Dialog::Dialog(QWidget *parent) :
     feed_days   = 0;
     feed_hours  = 8;
 
+    arduino_connected = false;
+
     refreshConnection();
 }
 
@@ -66,7 +68,7 @@ void Dialog::refreshConnection()
         }
     }
 
-    if(arduino_available){
+    if(arduino_available && !arduino_connected){
         qDebug() << "Found the arduino port...\n";
         arduino->setPortName(arduino_port_name);
         arduino->open(QSerialPort::ReadOnly);
@@ -75,7 +77,11 @@ void Dialog::refreshConnection()
         arduino->setFlowControl(QSerialPort::NoFlowControl);
         arduino->setParity(QSerialPort::NoParity);
         arduino->setStopBits(QSerialPort::OneStop);
+        arduino_connected = true;
         QObject::connect(arduino, SIGNAL(readyRead()), this, SLOT(readSerial()));
+    }else if(arduino_connected)
+    {
+        QMessageBox::information(this,"Serial Port Already Connected", "Serial port to Arduino Uno is already open.");
     }else{
         qDebug() << "Couldn't find the correct port for arduino.\n";
         QMessageBox::information(this,"Serial Port Error", "Couldn't open serial port to Arduino Uno.");
@@ -250,7 +256,7 @@ void Dialog::update_Clean_Message()
     int l_yea = l_value.split(" ")[0].split("/")[2].toInt();
     int l_h = l_value.split(" ")[1].split(":")[0].toInt();
     int l_m = l_value.split(" ")[1].split(":")[1].toInt();
-    if((d_yea >= l_yea) || (d_yea == l_yea && d_mon >= l_mon) || (d_yea == l_yea && d_mon == l_mon && d_day >= l_day) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h >= l_h) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h == l_h && t_m >= l_m))
+    if((d_yea > l_yea) || (d_yea == l_yea && d_mon > l_mon) || (d_yea == l_yea && d_mon == l_mon && d_day > l_day) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h > l_h) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h == l_h && t_m >= l_m))
     {
         //atualizar mensagem de alimentar peixes
         ui->Clean_Message->setStyleSheet("color : red");
@@ -287,7 +293,7 @@ void Dialog::update_Feed_Message()
     int l_yea = l_value.split(" ")[0].split("/")[2].toInt();
     int l_h = l_value.split(" ")[1].split(":")[0].toInt();
     int l_m = l_value.split(" ")[1].split(":")[1].toInt();
-    if((d_yea >= l_yea) || (d_yea == l_yea && d_mon >= l_mon) || (d_yea == l_yea && d_mon == l_mon && d_day >= l_day) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h >= l_h) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h == l_h && t_m >= l_m))
+    if((d_yea > l_yea) || (d_yea == l_yea && d_mon > l_mon) || (d_yea == l_yea && d_mon == l_mon && d_day > l_day) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h > l_h) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h == l_h && t_m >= l_m))
     {
         //atualizar mensagem de alimentar peixes
         ui->Feed_Message->setStyleSheet("color : red");
