@@ -35,9 +35,9 @@ private slots:
     void on_Set_Feed_Period_clicked();
 
     void on_pushButton_Clean_clicked();
+    void update_Clean_Message();
 
     void on_pushButton_Feed_clicked();
-
     void update_Feed_Message();
 
     void refresh_next_feed_time();

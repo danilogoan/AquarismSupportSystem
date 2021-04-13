@@ -27,8 +27,8 @@ Dialog::Dialog(QWidget *parent) :
 
     clean_days  = 30;
     clean_hours = 0;
-    feed_days   = 1;
-    feed_hours  = 0;
+    feed_days   = 0;
+    feed_hours  = 8;
 
     refreshConnection();
 }
@@ -120,6 +120,8 @@ void Dialog::readSerial()
         qDebug() << week;
         qDebug() << hour;
         serialData.clear();
+        update_Clean_Message();
+        update_Feed_Message();
     }
 }
 
@@ -200,18 +202,26 @@ void Dialog::on_pushButton_clicked( )
 
 void Dialog::on_Set_Clean_Period_clicked()
 {
-    clean_days  = ui->Days_Clean_Value->value();
-    clean_hours = ui->Hours_Clean_Value->value();
-    //atualizar o horário da próxima vez que deve ser limpo
-    refresh_next_clean_time();
+    if(ui->Days_Clean_Value->value()>0 || (ui->Days_Clean_Value->value()==0 && ui->Hours_Clean_Value->value()>0))
+    {
+        clean_days  = ui->Days_Clean_Value->value();
+        clean_hours = ui->Hours_Clean_Value->value();
+        //atualizar o horário da próxima vez que deve ser limpo
+        refresh_next_clean_time();
+        update_Clean_Message();
+    }
 }
 
 void Dialog::on_Set_Feed_Period_clicked()
 {
-    feed_days  = ui->Days_Feed_Value->value();
-    feed_hours = ui->Hours_Feed_Value->value();
-    //atualizar o horário da proxima vez que deve alimentar
-    refresh_next_feed_time();
+    if(ui->Days_Feed_Value->value()>0 || (ui->Days_Feed_Value->value()==0 && ui->Hours_Feed_Value->value()>0))
+    {
+        feed_days  = ui->Days_Feed_Value->value();
+        feed_hours = ui->Hours_Feed_Value->value();
+        //atualizar o horário da proxima vez que deve alimentar
+        refresh_next_feed_time();
+        update_Feed_Message();
+    }
 }
 
 void Dialog::on_pushButton_Clean_clicked()
@@ -221,7 +231,34 @@ void Dialog::on_pushButton_Clean_clicked()
     //atualizar a próxima data e hora que o aquário deve ser limpo
     refresh_next_clean_time();
     //atualizar mensagem do aquário para limpo
-    ui->Clean_Message->setText("Cleaned Aquarium");
+    update_Clean_Message();
+    //ui->Clean_Message->setText("Cleaned Aquarium");
+}
+
+void Dialog::update_Clean_Message()
+{
+    QString d_value = ui->Date_Value->text();
+    int d_day = d_value.split(" ")[0].split("/")[0].toInt();
+    int d_mon = d_value.split(" ")[0].split("/")[1].toInt();
+    int d_yea = d_value.split(" ")[0].split("/")[2].toInt();
+    QString t_value = ui->Time_Value->text();
+    int t_h = t_value.split(" ")[0].split(":")[0].toInt();
+    int t_m = t_value.split(" ")[0].split(":")[1].toInt();
+    QString l_value = ui->Next_Clean_Value->text();
+    int l_day = l_value.split(" ")[0].split("/")[0].toInt();
+    int l_mon = l_value.split(" ")[0].split("/")[1].toInt();
+    int l_yea = l_value.split(" ")[0].split("/")[2].toInt();
+    int l_h = l_value.split(" ")[1].split(":")[0].toInt();
+    int l_m = l_value.split(" ")[1].split(":")[1].toInt();
+    if((d_yea >= l_yea) || (d_yea == l_yea && d_mon >= l_mon) || (d_yea == l_yea && d_mon == l_mon && d_day >= l_day) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h >= l_h) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h == l_h && t_m >= l_m))
+    {
+        //atualizar mensagem de alimentar peixes
+        ui->Clean_Message->setStyleSheet("color : red");
+        ui->Clean_Message->setText("It's time to clean the aquarium");
+    } else {
+        ui->Clean_Message->setStyleSheet("color : black");
+        ui->Clean_Message->setText("Cleaned Aquarium");
+    }
 }
 
 void Dialog::on_pushButton_Feed_clicked()
@@ -231,7 +268,8 @@ void Dialog::on_pushButton_Feed_clicked()
     //atualizar a próxima data e hora em que os peixes devem ser alimentados
     refresh_next_feed_time();
     //atualizar mensagem dos peixes alimentados
-    ui->Feed_Message->setText("Fish Fed");
+    update_Feed_Message();
+    //ui->Feed_Message->setText("Fish Fed");
 }
 
 void Dialog::update_Feed_Message()
@@ -249,10 +287,14 @@ void Dialog::update_Feed_Message()
     int l_yea = l_value.split(" ")[0].split("/")[2].toInt();
     int l_h = l_value.split(" ")[1].split(":")[0].toInt();
     int l_m = l_value.split(" ")[1].split(":")[1].toInt();
-    if((d_yea > l_yea) || (d_yea == l_yea && d_mon > l_mon) || (d_yea == l_yea && d_mon == l_mon && d_day > l_day) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h > l_h) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h == l_h && t_m > l_m))
+    if((d_yea >= l_yea) || (d_yea == l_yea && d_mon >= l_mon) || (d_yea == l_yea && d_mon == l_mon && d_day >= l_day) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h >= l_h) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h == l_h && t_m >= l_m))
     {
         //atualizar mensagem de alimentar peixes
-        ui->Feed_Message->setText("Feed Fish");
+        ui->Feed_Message->setStyleSheet("color : red");
+        ui->Feed_Message->setText("It's time to feed the fish");
+    } else {
+        ui->Feed_Message->setStyleSheet("color : black");
+        ui->Feed_Message->setText("Fish Fed");
     }
 }
 
@@ -281,7 +323,6 @@ void Dialog::refresh_next_clean_time()
     int l_day = l_value.split(" ")[0].split("/")[0].toInt();
     int l_mon = l_value.split(" ")[0].split("/")[1].toInt();
     int l_yea = l_value.split(" ")[0].split("/")[2].toInt();
-    qDebug() << l_yea;
     int l_h = l_value.split(" ")[1].split(":")[0].toInt();
     int l_m = l_value.split(" ")[1].split(":")[1].toInt();
     QDateTime n_date = QDateTime(QDate(l_yea,l_mon,l_day),QTime(l_h,l_m));
