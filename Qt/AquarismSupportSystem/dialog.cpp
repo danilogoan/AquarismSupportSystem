@@ -234,6 +234,28 @@ void Dialog::on_pushButton_Feed_clicked()
     ui->Feed_Message->setText("Fish Fed");
 }
 
+void Dialog::update_Feed_Message()
+{
+    QString d_value = ui->Date_Value->text();
+    int d_day = d_value.split(" ")[0].split("/")[0].toInt();
+    int d_mon = d_value.split(" ")[0].split("/")[1].toInt();
+    int d_yea = d_value.split(" ")[0].split("/")[2].toInt();
+    QString t_value = ui->Time_Value->text();
+    int t_h = t_value.split(" ")[0].split(":")[0].toInt();
+    int t_m = t_value.split(" ")[0].split(":")[1].toInt();
+    QString l_value = ui->Next_Feed_Value->text();
+    int l_day = l_value.split(" ")[0].split("/")[0].toInt();
+    int l_mon = l_value.split(" ")[0].split("/")[1].toInt();
+    int l_yea = l_value.split(" ")[0].split("/")[2].toInt();
+    int l_h = l_value.split(" ")[1].split(":")[0].toInt();
+    int l_m = l_value.split(" ")[1].split(":")[1].toInt();
+    if((d_yea > l_yea) || (d_yea == l_yea && d_mon > l_mon) || (d_yea == l_yea && d_mon == l_mon && d_day > l_day) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h > l_h) || (d_yea == l_yea && d_mon == l_mon && d_day == l_day && t_h == l_h && t_m > l_m))
+    {
+        //atualizar mensagem de alimentar peixes
+        ui->Feed_Message->setText("Feed Fish");
+    }
+}
+
 void Dialog::refresh_next_feed_time()
 {
     QString l_value = ui->Last_Feed_Value->text();
