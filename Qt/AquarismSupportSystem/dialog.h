@@ -38,6 +38,8 @@ private slots:
 
     void on_pushButton_Feed_clicked();
 
+    void update_Feed_Message();
+
     void refresh_next_feed_time();
     void refresh_next_clean_time();
 
