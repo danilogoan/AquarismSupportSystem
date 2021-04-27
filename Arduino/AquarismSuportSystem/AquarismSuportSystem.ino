@@ -1,7 +1,6 @@
 #include <RTClib.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
-#include "TimerOne.h"
 
 //OneWire onewire(3);
 //DallasTemperature sensor(&onewire);
@@ -13,7 +12,7 @@ int lembrete_alimentacao=1; // 1 para lembrete ativado, 0 para lembrete desativa
 float ReadCTemperature;
 float PastCTemperature;
 
-RTC_DS1307 rtc; //Objeto do tipo rtc_ds1307
+//RTC_DS1307 rtc; //Objeto do tipo rtc_ds1307
 char daysOfTheWeek[7][12] = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"};
 
 int hora = 0;
@@ -21,37 +20,11 @@ int minu = 0;
 int dia = 6;
 int mes = 4;
 int ano = 2021;
-void interrupcao_botao_alimentacao();
+
 void setup() {
   Serial.begin(9600);
-  pinMode(buzz,OUTPUT);
-  Timer1.initialize(1000000); // Inicializa o Timer1 e configura para um período de 1 segundo
-  Timer1.attachInterrupt(clock_interrupt);
-  attachInterrupt(0,interrupcao_botao_alimentacao,RISING); //Configurando a interrupção do botão no pino 2
-//  sensor.begin();
-//  sensor.getAddress(addr, 0);
-
-/* Inicialização do sensor, tratamento de erro caso sensor não seja inicializado
-if (! rtc.begin()) { 
-    Serial.println("DS1307 não encontrado"); 
-    while(1); 
-  }
-  if (! rtc.isrunning()) { 
-    rtc.adjust(DateTime(F(__DATE__), F(__TIME__))); // Captura data e hora que o código foi compilado 
-
-  }
-  /*
-   
-     delay(100);
-   */
 }
-  /****************************
-Para usar valores de dia, mes e ano é necessário utilizar 
-now.day(),now.month(),now.year(). Já para usar valores de hora minuto e segundo 
-se utiliza, now.hour(), now.minute() e now.second(). Já para um dia da semana especifico 
-se utiliza daysOfTheWeek[now.dayOfTheWeek()]. Informações relevantes para utilizar nos processos de automação
-de horário de ligar e apagar luzes do aquário, tanto como para automatizar o horário de alimentação dos peixes
-  ****************************/
+
 void loop() {
 
   /*********************/
@@ -74,16 +47,7 @@ void loop() {
       }
     }
   }
-  
-  /*****************************/
-  /*     USING THE DS18B20     */
-  /*****************************/
-//  sensor.requestTemperatures();
-//  ReadCTemperature = sensor.getTempC(addr);
 
-  /*******************************/
-  /*SIMULATING WITH POTENCIOMETER*/
-  /*******************************/
   ReadCTemperature = (map(analogRead(SENSOR_T),0, 1023, 0, 500))/10;
   
   /*****************************/
@@ -110,19 +74,4 @@ void loop() {
     Serial.print(minu);
   }
   delay(2000);
-}
-void clock_interrupt()
-{
-if(hora==18 & minu==0 & lembrete_alimentacao==1){
-  tone(buzz,1500);   
-}else if (lembrete_alimentacao==0){
-  noTone(buzz);
-}
-if(hora==23 & minu==59)
-lembrete_alimentacao=1;
-}
-void interrupcao_botao_alimentacao(){
-if(lembrete_alimentacao==1){
- lembrete_alimentacao=0; 
-}
 }
