@@ -193,7 +193,10 @@ void Dialog::updateTemperatureMessage()
     }else{
         ui->TemperatureInfo->setStyleSheet("color : red");
         ui->TemperatureInfo->setText("The temperature is NOT within the standards.");
-        temp_alarm = 1;
+        if(disp_msg <= ui->Min_Temp_Def->text().toFloat())
+            temp_alarm = 1;
+        else
+            temp_alarm = 2;
     }
 }
 

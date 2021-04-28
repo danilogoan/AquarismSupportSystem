@@ -21,6 +21,10 @@ int dia = 6;
 int mes = 4;
 int ano = 2021;
 
+int TA = 0;
+int FA = 0;
+int CA = 0;
+
 int ALARME = 13;
 
 String serialCmd = "";
@@ -61,11 +65,26 @@ void loop() {
     ReadCTemperature = (map(analogRead(SENSOR_T),0, 1023, 0, 500))/10;
     
     
-    if( serialCmd == "TA:0|FA:0|CA:0$" ) {
-      digitalWrite(ALARME,LOW);
-    }
-    else {
+//    if( serialCmd == "TA:0|FA:0|CA:0$" ) {
+//      digitalWrite(ALARME,LOW);
+//    }
+//    else {
+//      digitalWrite(ALARME,HIGH);
+//    }
+    if(TA == 1){                  //Temp abaixo do min
       digitalWrite(ALARME,HIGH);
+    }
+    if(TA == 2){            //Temp acima do max
+      digitalWrite(ALARME,HIGH);
+    }
+    if(FA == 1){            //Alarme para alimentacao
+      digitalWrite(ALARME,HIGH);
+    }
+    if(CA == 1){            //Alarme para limpeza
+      digitalWrite(ALARME,HIGH);
+    }
+    if(TA == 0 && CA == 0 && FA == 0){                        //Tudo ok
+      digitalWrite(ALARME,LOW);
     }
        
     /* Resetando valores para nova recepcao */
@@ -95,13 +114,13 @@ void loop() {
     Serial.print("$");
   }
   
-  delay(2000);
+  delay(100);
 }
 
 void serialEvent() {
     /* Loop verificando se algum byte esta disponivel na serial */
+    int pos = 0;
     while (Serial.available()) {
-        
       /* O que chegar pela serial  feito um typecast de char para a variavel caractere */
         char caractere = (char)Serial.read(); 
         
@@ -111,8 +130,27 @@ void serialEvent() {
         /* Se chegar um CR, nova linha, nossa flag de controle (flagsControlRxSerial) passa para true
            e no loop principal ja podera ser utilizada
         */
+        if(pos == 1){
+          TA = (int)(caractere)-48;
+          pos++;
+        }else if(pos == 3){
+          FA = (int)(caractere)-48;
+          pos++;
+        }else if(pos == 5){
+          CA = (int)(caractere)-48;
+          pos++;
+        }
+        
+      if(caractere == ':'){
+        pos++;
+      }
         if (caractere == '$') {
-            flagControlRxSerial = true;
+          Serial.print(pos);
+          Serial.print(TA);
+          Serial.print(FA);
+          Serial.print(CA);
+          pos = 0;
+          flagControlRxSerial = true;
         } 
     }
 }
