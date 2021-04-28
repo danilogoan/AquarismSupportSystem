@@ -19,7 +19,9 @@ public:
 
 private slots:
     void refreshConnection();
-    void readSerial();
+    void readSerial(QByteArray);
+    void writeSerial();
+    void decode();
     void updateLCD(const QString);
     void updateTemperatureMessage();
 
@@ -43,6 +45,9 @@ private slots:
     void refresh_next_feed_time();
     void refresh_next_clean_time();
 
+signals:
+    void messsageReceived(QByteArray message);
+
 private:
     Ui::Dialog *ui;
 
@@ -51,6 +56,7 @@ private:
     static const quint16 arduino_uno_product_id = 29987;
 
     QByteArray serialData;
+    QByteArray m_buffer;
     QString serialBuffer;
 
     int clean_days;
@@ -59,6 +65,10 @@ private:
     int feed_hours;
 
     bool arduino_connected;
+
+    int food_alarm;
+    int clean_alarm;
+    int temp_alarm;
 };
 
 #endif // DIALOG_H

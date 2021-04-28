@@ -30,9 +30,14 @@ Dialog::Dialog(QWidget *parent) :
     feed_days   = 0;
     feed_hours  = 8;
 
+    food_alarm = 0;
+    clean_alarm = 0;
+    temp_alarm = 0;
+
     arduino_connected = false;
 
     refreshConnection();
+    writeSerial();
 }
 
 
@@ -69,16 +74,21 @@ void Dialog::refreshConnection()
     }
 
     if(arduino_available && !arduino_connected){
+
         qDebug() << "Found the arduino port...\n";
         arduino->setPortName(arduino_port_name);
-        arduino->open(QSerialPort::ReadOnly);
-        arduino->setBaudRate(QSerialPort::Baud9600);
+        arduino->open(QSerialPort::ReadWrite);
+        qDebug() << arduino->isOpen();
+        arduino->setBaudRate(QSerialPort::Baud19200);
         arduino->setDataBits(QSerialPort::Data8);
         arduino->setFlowControl(QSerialPort::NoFlowControl);
         arduino->setParity(QSerialPort::NoParity);
         arduino->setStopBits(QSerialPort::OneStop);
         arduino_connected = true;
-        QObject::connect(arduino, SIGNAL(readyRead()), this, SLOT(readSerial()));
+        QObject::connect(arduino, SIGNAL(readyRead()), this, SLOT( decode()) );
+        QObject::connect(this, SIGNAL(messsageReceived(QByteArray)), this, SLOT(readSerial(QByteArray)) );
+        qDebug() << arduino->isOpen();
+        serialData.clear();
     }else if(arduino_connected)
     {
         QMessageBox::information(this,"Serial Port Already Connected", "Serial port to Arduino Uno is already open.");
@@ -88,28 +98,40 @@ void Dialog::refreshConnection()
     }
 }
 
-void Dialog::readSerial()
+void Dialog::decode()
+{
+    QByteArray bytes = arduino->readAll();
+    for (char c : bytes)
+    {
+        if (c == '$')
+        {
+            emit messsageReceived(m_buffer);
+            m_buffer.clear();
+        }
+        else
+        {
+             m_buffer.append(c);
+        }
+    }
+}
+
+void Dialog::readSerial(QByteArray message)
 {
     qDebug() << "Serialport works\n";
 
-   // serialData.clear();
-   // arduino->clear();
-
-    serialData = arduino->readAll();
+    serialData = message;
     serialBuffer = QString::fromStdString( serialData.toStdString() );
     qDebug() << serialBuffer;
 
     QStringList bufferSplit = serialBuffer.split("|");
 
-    if(bufferSplit[0].split(":")[0] == "T"){
         QString temperature = bufferSplit[0].split(":")[1];
         qDebug() << temperature;
         updateLCD(temperature);
-    }else{
         //get Date
-        QString date = bufferSplit[0].split(":")[1];
-        QString week = bufferSplit[1].split(":")[1];
-        QString hour = bufferSplit[2].split(":")[1].split("\r\n")[0];
+        QString date = bufferSplit[1].split(":")[1];
+        QString week = bufferSplit[2].split(":")[1];
+        QString hour = bufferSplit[3].split(":")[1].split("\r\n")[0];
 
         QString day = QStringLiteral("%1").arg( date.split("/")[0].toInt() , 2, 10, QLatin1Char('0'));
         QString mon = QStringLiteral("%1").arg( date.split("/")[1].toInt() , 2, 10, QLatin1Char('0'));
@@ -128,10 +150,25 @@ void Dialog::readSerial()
         serialData.clear();
         update_Clean_Message();
         update_Feed_Message();
-    }
+
+        writeSerial();
 }
 
+void Dialog::writeSerial()
+{
+    QString m;
+    m = "TA:";
+    m += QString::number(temp_alarm);
+    m += "|FA:";
+    m += QString::number(food_alarm);
+    m += "|CA:";
+    m += QString::number(clean_alarm);
+    m += "$";
+    qDebug() << m;
+    QByteArray message = m.toUtf8();
 
+    arduino->write(message);
+}
 
 void Dialog::updateLCD(const QString sensor_reading){
     ui->tempLcdNumber->display(sensor_reading);
@@ -147,13 +184,16 @@ void Dialog::updateTemperatureMessage()
     if(disp_msg == trying){
         ui->TemperatureInfo->setStyleSheet("color : red");
         ui->TemperatureInfo->setText("No temperature info.");
+        temp_alarm = 0;
     }else if(disp_msg <= ui->Max_Temp_Def->text().toFloat()
              && disp_msg >= ui->Min_Temp_Def->text().toFloat()){
         ui->TemperatureInfo->setStyleSheet("color : black");
         ui->TemperatureInfo->setText("The temperature is within the standards.");
+        temp_alarm = 0;
     }else{
         ui->TemperatureInfo->setStyleSheet("color : red");
         ui->TemperatureInfo->setText("The temperature is NOT within the standards.");
+        temp_alarm = 1;
     }
 }
 
@@ -261,9 +301,11 @@ void Dialog::update_Clean_Message()
         //atualizar mensagem de alimentar peixes
         ui->Clean_Message->setStyleSheet("color : red");
         ui->Clean_Message->setText("It's time to clean the aquarium");
+        clean_alarm = 1;
     } else {
         ui->Clean_Message->setStyleSheet("color : black");
         ui->Clean_Message->setText("Cleaned Aquarium");
+        clean_alarm = 0;
     }
 }
 
@@ -298,9 +340,11 @@ void Dialog::update_Feed_Message()
         //atualizar mensagem de alimentar peixes
         ui->Feed_Message->setStyleSheet("color : red");
         ui->Feed_Message->setText("It's time to feed the fish");
+        food_alarm = 1;
     } else {
         ui->Feed_Message->setStyleSheet("color : black");
         ui->Feed_Message->setText("Fish Fed");
+        food_alarm = 0;
     }
 }
 
