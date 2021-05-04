@@ -69,6 +69,8 @@ private:
     int food_alarm;
     int clean_alarm;
     int temp_alarm;
+    int hit_median;
+    int rising;
 };
 
 #endif // DIALOG_H

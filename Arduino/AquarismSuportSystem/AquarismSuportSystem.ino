@@ -2,9 +2,9 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-//OneWire onewire(3);
-//DallasTemperature sensor(&onewire);
-//DeviceAddress addr;
+OneWire onewire(3);
+DallasTemperature sensor(&onewire);
+DeviceAddress addr;
 
 int SENSOR_T = 3;
 const int buzz = 10; // Pino do Buzzer, pode ser alterado
@@ -12,7 +12,7 @@ int lembrete_alimentacao=1; // 1 para lembrete ativado, 0 para lembrete desativa
 float ReadCTemperature;
 float PastCTemperature;
 
-//RTC_DS1307 rtc; //Objeto do tipo rtc_ds1307
+RTC_DS1307 rtc; //Objeto do tipo rtc_ds1307
 char daysOfTheWeek[7][12] = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"};
 
 int hora = 0;
@@ -24,6 +24,7 @@ int ano = 2021;
 int TA = 0;
 int FA = 0;
 int CA = 0;
+int HM = 1;
 
 int ALARME = 13;
 
@@ -139,16 +140,15 @@ void serialEvent() {
         }else if(pos == 5){
           CA = (int)(caractere)-48;
           pos++;
+        }else if(pos == 7){
+          HM = (int)(caractere)-48;
+          pos++;
         }
         
       if(caractere == ':'){
         pos++;
       }
         if (caractere == '$') {
-          Serial.print(pos);
-          Serial.print(TA);
-          Serial.print(FA);
-          Serial.print(CA);
           pos = 0;
           flagControlRxSerial = true;
         } 

@@ -33,6 +33,8 @@ Dialog::Dialog(QWidget *parent) :
     food_alarm = 0;
     clean_alarm = 0;
     temp_alarm = 0;
+    hit_median = 1;
+    rising = 0;
 
     arduino_connected = false;
 
@@ -163,6 +165,8 @@ void Dialog::writeSerial()
     m += QString::number(food_alarm);
     m += "|CA:";
     m += QString::number(clean_alarm);
+    m += "|HM:";
+    m += QString::number(hit_median);
     m += "$";
     qDebug() << m;
     QByteArray message = m.toUtf8();
@@ -190,13 +194,25 @@ void Dialog::updateTemperatureMessage()
         ui->TemperatureInfo->setStyleSheet("color : black");
         ui->TemperatureInfo->setText("The temperature is within the standards.");
         temp_alarm = 0;
+        if(rising){
+            if(disp_msg >= (ui->Min_Temp_Def->text().toFloat()+ui->Max_Temp_Def->text().toFloat())/2)
+                hit_median = 1;
+        }else{
+            if(disp_msg <= (ui->Min_Temp_Def->text().toFloat()+ui->Max_Temp_Def->text().toFloat())/2)
+                hit_median = 1;
+        }
     }else{
         ui->TemperatureInfo->setStyleSheet("color : red");
         ui->TemperatureInfo->setText("The temperature is NOT within the standards.");
-        if(disp_msg <= ui->Min_Temp_Def->text().toFloat())
+        hit_median = 0;
+        if(disp_msg <= ui->Min_Temp_Def->text().toFloat()){
             temp_alarm = 1;
-        else
+            rising = 1;
+        }
+        else{
             temp_alarm = 2;
+            rising = 0;
+        }
     }
 }
 
