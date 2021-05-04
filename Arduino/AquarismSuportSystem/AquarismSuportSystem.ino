@@ -25,6 +25,7 @@ int TA = 0;
 int FA = 0;
 int CA = 0;
 int HM = 1;
+int rising = 0;
 
 int ALARME = 13;
 
@@ -74,9 +75,11 @@ void loop() {
 //    }
     if(TA == 1){                  //Temp abaixo do min
       digitalWrite(ALARME,HIGH);
+      rising = 1;
     }
     if(TA == 2){            //Temp acima do max
       digitalWrite(ALARME,HIGH);
+      rising = 0;
     }
     if(FA == 1){            //Alarme para alimentacao
       digitalWrite(ALARME,HIGH);
@@ -85,7 +88,15 @@ void loop() {
       digitalWrite(ALARME,HIGH);
     }
     if(TA == 0 && CA == 0 && FA == 0){                        //Tudo ok
-      digitalWrite(ALARME,LOW);
+      if(rising == 0){    // a temperatura que violou estava acima do esperado
+        if(HM == 0){      // precisa ativar a placa de peltier
+          digitalWrite(ALARME,HIGH);
+        }else{
+          digitalWrite(ALARME,LOW);
+        }
+      }else{
+        digitalWrite(ALARME,LOW);
+      }
     }
        
     /* Resetando valores para nova recepcao */
