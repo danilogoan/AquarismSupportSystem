@@ -21,8 +21,8 @@ Dialog::Dialog(QWidget *parent) :
     ui->Min_Temp_Def->setFont(formation);
     ui->Date_Value->setFont(formation);
     ui->Time_Value->setFont(formation);
-    ui->Max_Temp_Def->setText("30");
-    ui->Min_Temp_Def->setText("27");
+    ui->Max_Temp_Def->setText("25");
+    ui->Min_Temp_Def->setText("21");
     updateTemperatureMessage();
 
     clean_days  = 30;
