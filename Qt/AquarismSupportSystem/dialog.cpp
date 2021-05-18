@@ -98,6 +98,7 @@ void Dialog::refreshConnection()
         qDebug() << "Couldn't find the correct port for arduino.\n";
         QMessageBox::information(this,"Serial Port Error", "Couldn't open serial port to Arduino Uno.");
     }
+    writeSerial();
 }
 
 void Dialog::decode()
