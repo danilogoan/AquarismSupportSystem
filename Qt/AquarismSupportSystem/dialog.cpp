@@ -91,6 +91,7 @@ void Dialog::refreshConnection()
         QObject::connect(this, SIGNAL(messsageReceived(QByteArray)), this, SLOT(readSerial(QByteArray)) );
         qDebug() << arduino->isOpen();
         serialData.clear();
+        ui->pushButton->setText("Connected");
     }else if(arduino_connected)
     {
         QMessageBox::information(this,"Serial Port Already Connected", "Serial port to Arduino Uno is already open.");
