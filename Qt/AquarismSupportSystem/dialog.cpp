@@ -38,8 +38,8 @@ Dialog::Dialog(QWidget *parent) :
 
     arduino_connected = false;
 
-    refreshConnection();
-    writeSerial();
+    //refreshConnection();
+    //writeSerial();
 }
 
 
@@ -53,7 +53,7 @@ void Dialog::refreshConnection()
 {
     serialBuffer = "";
 
-    qDebug() << "Number of ports: " << QSerialPortInfo::availablePorts().length() << "\n";
+    /*qDebug() << "Number of ports: " << QSerialPortInfo::availablePorts().length() << "\n";
     foreach(const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts()){
         qDebug() << "Description: "    << serialPortInfo.description()          << "\n";
         qDebug() << "Has vendor ID? "  << serialPortInfo.hasVendorIdentifier()  << "\n";
@@ -61,7 +61,7 @@ void Dialog::refreshConnection()
         qDebug() << "Has product ID? " << serialPortInfo.hasProductIdentifier() << "\n";
         qDebug() << "Product ID: "     << serialPortInfo.productIdentifier()    << "\n";
     }
-
+    */
     //identify if the arduino uno port is on:
     bool arduino_available = false;
     QString arduino_port_name;
@@ -247,6 +247,13 @@ void Dialog::update_temperature_values(QString max, QString min)
     updateTemperatureMessage();
 }
 
+void Dialog::update_ids(quint16 vendorid, quint16 productid)
+{
+    arduino_uno_vendor_id = vendorid;
+    arduino_uno_product_id = productid;
+    refreshConnection();
+}
+
 void Dialog::update_date_values(QString day, QString mon, QString yea)
 {
     QString value = day + "/" + mon + "/" + yea;
@@ -261,7 +268,9 @@ void Dialog::update_time_values(QString hour, QString min)
 
 void Dialog::on_pushButton_clicked( )
 {
-    refreshConnection();
+    //refreshConnection();
+    Connection *con = new Connection(this);
+    con->show();
 }
 
 

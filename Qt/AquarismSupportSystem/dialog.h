@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QSerialPort>
 #include "edit_temperature_dialog.h"
+#include "connection.h"
 
 namespace Ui {
 class Dialog;
@@ -27,6 +28,7 @@ private slots:
 
     void on_EditTemperature_clicked();
     void update_temperature_values(QString,QString);
+    void update_ids(quint16,quint16);
     void update_date_values(QString, QString, QString);
     void update_time_values(QString, QString);
 
@@ -52,8 +54,8 @@ private:
     Ui::Dialog *ui;
 
     QSerialPort *arduino;
-    static const quint16 arduino_uno_vendor_id = 6790;
-    static const quint16 arduino_uno_product_id = 29987;
+    quint16 arduino_uno_vendor_id = 6790;
+    quint16 arduino_uno_product_id = 29987;
 
     QByteArray serialData;
     QByteArray m_buffer;

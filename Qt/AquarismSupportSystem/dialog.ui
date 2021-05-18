@@ -146,7 +146,7 @@
          <item>
           <widget class="QPushButton" name="pushButton">
            <property name="text">
-            <string>Refresh Connection</string>
+            <string>Connect</string>
            </property>
           </widget>
          </item>

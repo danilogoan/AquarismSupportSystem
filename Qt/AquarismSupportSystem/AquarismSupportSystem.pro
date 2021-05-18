@@ -26,12 +26,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         dialog.cpp \
-    edit_temperature_dialog.cpp
+    edit_temperature_dialog.cpp \
+    connection.cpp
 
 HEADERS += \
         dialog.h \
-    edit_temperature_dialog.h
+    edit_temperature_dialog.h \
+    connection.h
 
 FORMS += \
         dialog.ui \
-    edit_temperature_dialog.ui
+    edit_temperature_dialog.ui \
+    connection.ui
