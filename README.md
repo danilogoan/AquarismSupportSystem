@@ -5,7 +5,7 @@ The main objective is to create a system to support an aquarium. That way, it'll
 The main dispositive is an arduino connected to an interface created with Qt Creator.
 
 ## Interface
-![alt text](https://github.com/danilogoan/AquarismSupportSystem/tree/main/Qt/AquarismSupportSystem/Images/Interface.jpg?raw=true)
+![alt tex](https://github.com/danilogoan/AquarismSupportSystem/tree/main/Qt/AquarismSupportSystem/Images/Interface.jpg?raw=true)
 
 ## Group:
 
