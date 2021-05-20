@@ -1,11 +1,12 @@
-<h4 align="center"> 
+<h4 align="center">
+\
 ![alt text](https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/pngLogo.jpg?raw=true)
 \
 	🚧 🐟🐡 Almost Done... 🐡🐟 🚧
 </h4>
 
 <p align="center">
- <a href="#Aquarism Support System">Aquarism Support System</a>
+ <a href="Aquarism Support System">Aquarism Support System</a>
  <a href="#Features">Features</a>
  <a href="#Interface">Interface</a>
  <a href="#Group">Groups</a>
@@ -47,7 +48,7 @@ The main dispositive is an arduino connected to an interface created with Qt Cre
 - [ ] Get the PI controler after the caracterization (SIMC)
 
 ## Interface
-![alt tex](https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/Interface.jpg?raw=true)
+![alt text](https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/Interface.jpg?raw=true)
 
 ## Group:
 
