@@ -99,6 +99,7 @@ void Dialog::refreshConnection()
         qDebug() << "Couldn't find the correct port for arduino.\n";
         QMessageBox::information(this,"Serial Port Error", "Couldn't open serial port to Arduino Uno.");
     }
+
     writeSerial();
 }
 
@@ -254,6 +255,7 @@ void Dialog::update_ids(quint16 vendorid, quint16 productid)
     arduino_uno_vendor_id = vendorid;
     arduino_uno_product_id = productid;
     refreshConnection();
+    writeSerial();
 }
 
 void Dialog::update_date_values(QString day, QString mon, QString yea)
