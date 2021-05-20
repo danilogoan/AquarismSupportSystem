@@ -1,6 +1,7 @@
 ![alt text](https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/pngLogo.jpg?raw=true)
-\
+
 <h4 align="center">
+	<img alt="APM" src="https://img.shields.io/apm/l/vim-mode"><br>
 	🚧 🐟🐡 Almost Done... 🐡🐟 🚧
 </h4>
 
