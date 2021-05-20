@@ -5,7 +5,7 @@
 </h4>
 
 <p align="center">
- <a href="#Aquarism-Support-System">Aquarism Support System</a> • 
+ <a href="#-Aquarism-Support-System">Aquarism Support System</a> • 
  <a href="#Features">Features</a> • 
  <a href="#Interface">Interface</a> • 
  <a href="#Prerequisites">Prerequisites</a> • 
