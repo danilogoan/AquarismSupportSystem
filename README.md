@@ -54,10 +54,12 @@ The main dispositive is an arduino connected to an interface created with Qt Cre
 The Arduino Uno was used with the devices explained on the [slide](https://github.com/danilogoan/AquarismSupportSystem/blob/main/SADI_Aquarism_Support_System_Slides.pdf), where is also explained how to execute and use the interface.
 Besides that, the interface was generated and tested on Windows 10 x86.
 
-- Clone this repository.
-- Load the [Arduino file](https://github.com/danilogoan/AquarismSupportSystem/blob/main/Arduino/AquarismSuportSystem/ArduinoAquarism.ino) into the Arduino Uno.
+- Clone this repository
+- Load the [Arduino file](https://github.com/danilogoan/AquarismSupportSystem/blob/main/Arduino/AquarismSuportSystem/ArduinoAquarism.ino) into the Arduino Uno
 - Unzip the [Executable](https://github.com/danilogoan/AquarismSupportSystem/blob/main/AquarismSupportSystemExe.zip)
 - Open the AquarismSuportSystem.exe
+
+You can also read the detailed [documentation](https://github.com/danilogoan/AquarismSupportSystem/blob/main/SADI_Aquarism_Support_System_Documentation.pdf).
 
 ## Group:
 
