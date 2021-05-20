@@ -5,14 +5,14 @@
 </h4>
 
 <p align="center">
- <a href="#Aquarism-Support-System">Aquarism Support System</a><br>
- <a href="#Features">Features</a><br>
- <a href="#Interface">Interface</a><br>
- <a href="#Prerequisites">Prerequisites</a><br>
+ <a href="#Aquarism-Support-System">Aquarism Support System</a> • 
+ <a href="#Features">Features</a> • 
+ <a href="#Interface">Interface</a> • 
+ <a href="#Prerequisites">Prerequisites</a> • 
  <a href="#Group">Groups</a>
 </p>
 
-# Aquarism Support System
+# 🐠 Aquarism Support System
 This is a project for the Data Acquisition and Interface Systems subject.\
 The main objective is to create a system to support an aquarium. That way, it'll be possible to monitor and control the temperature, indicate whether it is the time to clean the aquarium and feed the fish or not.\
 The main dispositive is an arduino connected to an interface created with Qt Creator.
