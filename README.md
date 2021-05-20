@@ -9,7 +9,7 @@
  <a href="#Aquarism-Support-System">Aquarism Support System</a><br>
  <a href="#Features">Features</a><br>
  <a href="#Interface">Interface</a><br>
- <a href="#Pre-requisitos">Pre-requisitos</a><br>
+ <a href="#Pré-requisitos">Pré-requisitos</a><br>
  <a href="#Group">Groups</a>
 </p>
 
