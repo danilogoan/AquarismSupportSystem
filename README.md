@@ -52,7 +52,7 @@ The main dispositive is an arduino connected to an interface created with Qt Cre
 ![alt text](https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/Interface.jpg?raw=true)
 
 ## Aquarium
-![alt text](https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/Aquarium.jpg?raw=true)
+![alt text](https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/Aquarium.jpeg?raw=true)
 
 ## Prerequisites
 The Arduino Uno was used with the devices explained on the [slide](https://github.com/danilogoan/AquarismSupportSystem/blob/main/SADI_Aquarism_Support_System_Slides.pdf), where is also explained how to execute and use the interface.
