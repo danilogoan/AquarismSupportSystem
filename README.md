@@ -1,5 +1,5 @@
 <h4 align="center">
-<img src="https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/pngLogo.jpg" width="200">
+<img src="https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/pngLogo.jpg" width="200"><br>
 	<img alt="APM" src="https://img.shields.io/apm/l/vim-mode"><br>
 	🚧 🐟🐡 Almost Done... 🐡🐟 🚧
 </h4>
