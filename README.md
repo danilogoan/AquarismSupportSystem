@@ -1,4 +1,4 @@
-![alt text](https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/pngLogo.jpg =100x)
+![alt text](https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/pngLogo.jpg)
 
 <h4 align="center">
 	<img alt="APM" src="https://img.shields.io/apm/l/vim-mode"><br>
