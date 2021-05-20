@@ -40,7 +40,7 @@ DeviceAddress sensor1;
  
 void setup(void)
 {
-  Serial.begin(9600);
+  Serial.begin(19200);
   pinMode(ALARME,OUTPUT);
   sensors.begin();
   sensors.getAddress(sensor1, 0); 
