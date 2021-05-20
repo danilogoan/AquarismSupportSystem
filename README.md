@@ -5,9 +5,10 @@
 </h4>
 
 <p align="center">
- <a href="#Aquarism-Support-System">Aquarism Support System</a>
- <a href="#Features">Features</a>
- <a href="#Interface">Interface</a>
+ <a href="#Aquarism-Support-System">Aquarism Support System</a><br>
+ <a href="#Features">Features</a><br>
+ <a href="#Interface">Interface</a><br>
+ <a href="#Pre-requisitos">Pre-requisitos</a><br>
  <a href="#Group">Groups</a>
 </p>
 
@@ -48,6 +49,10 @@ The main dispositive is an arduino connected to an interface created with Qt Cre
 
 ## Interface
 ![alt text](https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/Interface.jpg?raw=true)
+
+## Pré-requisitos
+O Arduino Uno foi utilizado em conjunto com os materiais que estão explicados no [slide](https://github.com/danilogoan/AquarismSupportSystem/blob/main/SADI_Aquarism_Support_System_Slides.pdf), onde também indica como executar e utilizar a interface.
+Além disso, a interface foi gerada e testada no Windows 10 x86.
 
 ## Group:
 
