@@ -1,7 +1,7 @@
 <h4 align="center">
 <img src="https://github.com/danilogoan/AquarismSupportSystem/blob/main/Qt/AquarismSupportSystem/Images/pngLogo.jpg" width="200"><br>
 	<img alt="APM" src="https://img.shields.io/apm/l/vim-mode"><br>
-        🐟🐡 Project Finished... Some upgrades may happen 🐡🐟
+        🐟🐡 Project Finished... Some improvements may happen 🐡🐟
 </h4>
 
 <p align="center">
